@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MemberRepository")
  */
-class Member
+class Member implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -26,7 +27,7 @@ class Member
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $surname;
+    private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -42,6 +43,12 @@ class Member
      * @ORM\Column(type="text")
      */
     private $password;
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $roles = ['ROLE_USER'];
+
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Opinion", mappedBy="author")
@@ -76,14 +83,14 @@ class Member
         return $this;
     }
 
-    public function getSurname(): ?string
+    public function getUsername(): ?string
     {
-        return $this->surname;
+        return $this->username;
     }
 
-    public function setSurname(string $surname): self
+    public function setUsername(string $username): self
     {
-        $this->surname = $surname;
+        $this->username = $username;
 
         return $this;
     }
@@ -155,6 +162,10 @@ class Member
         return $this;
     }
 
+    public function getSalt() {}
+
+    public function eraseCredentials() {}
+
     /**
      * @return Collection|Property[]
      */
@@ -189,5 +200,21 @@ class Member
     public function __toString()
     {
         return $this->getName();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param mixed $roles
+     */
+    public function setRoles($roles): void
+    {
+        $this->roles = $roles;
     }
 }

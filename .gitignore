@@ -6,6 +6,10 @@
 /public/bundles/
 /var/
 /vendor/
+.idea/
+.idea/Alti-Location.iml
+.idea/php.xml
+.idea/workspace.xml
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
